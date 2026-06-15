@@ -1,0 +1,8 @@
+[project]
+name = "qa-brazil-s8-tasks"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "helpers>=0.2.0",
+    "selenium>=4.44.0",
+]
