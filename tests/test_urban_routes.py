@@ -1,24 +1,28 @@
-import helpers
+import pytest
 from selenium import webdriver
-from selenium.webdriver import DesiredCapabilities
-from pages import UrbanRoutesPage
+from selenium.webdriver.chrome.options import Options
+
 import data
+from pages import UrbanRoutesPage
 
 class TestUrbanRoutes:
     driver = None
 
     @classmethod
     def setup_class(cls):
-        # não modifique, pois precisamos do registro adicional habilitado para recuperar o código de confirmação do telefone
-        capabilities = DesiredCapabilities.CHROME
-        capabilities["goog:loggingPrefs"] = {'performance': 'ALL'}
-        cls.driver = webdriver.Chrome(desired_capabilities=capabilities)
+        if not data.URBAN_ROUTES_URL:
+            pytest.skip("URBAN_ROUTES_URL is not set: the bootcamp-hosted Urban Routes server is no longer available")
+        # Performance logging is required to read the SMS confirmation code (see helpers.retrieve_phone_code).
+        options = Options()
+        options.set_capability("goog:loggingPrefs", {"performance": "ALL"})
+        cls.driver = webdriver.Chrome(options=options)
         cls.driver.maximize_window()
         cls.driver.get(data.URBAN_ROUTES_URL)
 
     @classmethod
     def teardown_class(cls):
-        cls.driver.quit()
+        if cls.driver:
+            cls.driver.quit()
 
     def test_set_route(self):
         routes_page = UrbanRoutesPage(self.driver)

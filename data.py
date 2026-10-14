@@ -1,4 +1,7 @@
-URBAN_ROUTES_URL = 'https://cnt-e2f38e8f-ac4b-4945-8977-54df7e8a3004.containerhub.tripleten-services.com/?lng=pt'
+import os
+
+# The bootcamp served Urban Routes from a temporary per-student URL; set yours to run the suite.
+URBAN_ROUTES_URL = os.getenv("URBAN_ROUTES_URL", "")
 
 ADDRESS_FROM = 'East 2nd Street, 601'
 ADDRESS_TO = '1300 1st St'
